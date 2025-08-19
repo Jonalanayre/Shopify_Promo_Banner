@@ -78,3 +78,7 @@ Go to Online Store → Customize and edit the Top Promo Banner settings:
 - Colors (background, text, link)
 - Optional third line + right image
 
+<img width="299" height="795" alt="Screenshot 2025-08-19 at 9 52 18 AM" src="https://github.com/user-attachments/assets/9d1de807-9db0-43bc-a107-5236a7e2175a" />
+
+
+
