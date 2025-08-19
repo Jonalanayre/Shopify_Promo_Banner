@@ -1,0 +1,174 @@
+{% comment %}
+  Top Promo Banner — reusable section
+  Features:
+  - Black background, white Inter text
+  - Title (line 1): always bold
+  - Sub-headline (line 2, left): inline richtext (no italics allowed)
+  - Inline link: inline_richtext (never bold)
+  - Font-size sliders for title & subtitle
+  - Optional third line: richtext
+  - Optional right image (hidden on small screens)
+{% endcomment %}
+
+<section
+  id="promo-{{ section.id }}"
+  class="promo-banner"
+  role="region"
+  aria-label="{{ section.settings.aria_label | escape }}"
+  style="
+    --promo-bg: {{ section.settings.bg | default: '#000000' }};
+    --promo-fg: {{ section.settings.fg | default: '#ffffff' }};
+    --promo-link: {{ section.settings.link_color | default: '#ffffff' }};
+  "
+>
+  <div class="promo-banner__inner page-width">
+    <div class="promo-banner__left">
+      
+      <!-- Title (always bold) -->
+      <p class="promo-banner__title"
+         style="font-size: {{ section.settings.title_size }}px;">
+        <strong>{{ section.settings.eyebrow }}</strong>
+      </p>
+
+      <!-- Sub-headline + inline link -->
+      <div class="promo-banner__row">
+        <span class="promo-banner__subtitle"
+              style="font-size: {{ section.settings.subtitle_size }}px;">
+          {{ section.settings.headline | replace: '<em>', '' | replace: '</em>', '' }}
+        </span>
+
+        {% if section.settings.cta_label != blank and section.settings.cta_url != blank %}
+          <a class="promo-banner__link"
+             href="{{ section.settings.cta_url }}"
+             {% if section.settings.cta_new_tab %}target="_blank" rel="noopener"{% endif %}
+             style="font-size: {{ section.settings.subtitle_size }}px;">
+            {{ section.settings.cta_label | replace: '<strong>', '' | replace: '</strong>', '' }}
+          </a>
+        {% endif %}
+      </div>
+
+      <!-- Optional third line -->
+      {% if section.settings.subtext != blank %}
+        <div class="promo-banner__subtext">
+          {{ section.settings.subtext }}
+        </div>
+      {% endif %}
+    </div>
+
+    {% if section.settings.image != blank %}
+      <div class="promo-banner__right">
+        <img
+          class="promo-banner__image"
+          src="{{ section.settings.image | image_url: width: 1200 }}"
+          alt="{{ section.settings.image.alt | escape }}"
+          loading="lazy"
+        >
+      </div>
+    {% endif %}
+  </div>
+
+  <style>
+    #promo-{{ section.id }} {
+      background: var(--promo-bg);
+      color: var(--promo-fg);
+      font-family: 'Inter', sans-serif;
+    }
+
+    .promo-banner__inner {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 1rem; /* reduced gap between title + sub-headline */
+      padding: 24px 1.25rem;
+    }
+
+    .promo-banner__left { min-width: 0; }
+
+    /* Title */
+    .promo-banner__title {
+      margin: 0 0 .25rem 0; /* tighter spacing */
+      color: #fff;
+      font-weight: 700; /* always bold */
+      line-height: 1.25;
+    }
+
+    /* Sub-headline + link row */
+    .promo-banner__row {
+      display: inline-flex;
+      align-items: baseline;
+      column-gap: 12px;
+      flex-wrap: wrap;
+      margin: 0;
+    }
+    .promo-banner__subtitle {
+      color: #fff;
+      font-weight: 400;
+      line-height: 1.35;
+    }
+    .promo-banner__link {
+      color: var(--promo-link);
+      font-weight: 400; /* never bold */
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .promo-banner__link:hover,
+    .promo-banner__link:focus { text-decoration: underline; }
+
+    /* Optional third line */
+    .promo-banner__subtext {
+      margin-top: .5rem;
+      color: #fff;
+      font-size: 11px;
+      opacity: .9;
+    }
+
+    /* Right image */
+    .promo-banner__right { display: flex; justify-content: flex-end; }
+    .promo-banner__image { height: 80px; width: auto; object-fit: contain; }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .promo-banner__inner {
+        grid-template-columns: 1fr;
+        gap: .5rem;
+      }
+      .promo-banner__right { display: none; }
+    }
+  </style>
+</section>
+
+{% schema %}
+{
+  "name": "Top promo banner",
+  "settings": [
+    { "type": "text", "id": "aria_label", "label": "ARIA label", "default": "Promotional banner" },
+
+    { "type": "inline_richtext", "id": "eyebrow", "label": "Title (line 1)",
+      "default": "2025 Buyer’s Guide: Spend Management"
+    },
+    { "type": "range", "id": "title_size", "label": "Title font size",
+      "min": 12, "max": 64, "step": 1, "unit": "px", "default": 25
+    },
+
+    { "type": "inline_richtext", "id": "headline", "label": "Sub-headline (line 2, left)",
+      "default": "Choose the right partner to save you time and money."
+    },
+    { "type": "range", "id": "subtitle_size", "label": "Sub-headline font size",
+      "min": 10, "max": 32, "step": 1, "unit": "px", "default": 13
+    },
+
+    { "type": "inline_richtext", "id": "cta_label", "label": "Inline link text", "default": "Download now" },
+    { "type": "url",  "id": "cta_url",   "label": "Inline link URL" },
+    { "type": "checkbox", "id": "cta_new_tab", "label": "Open link in new tab", "default": true },
+
+    { "type": "richtext", "id": "subtext", "label": "Optional third line", "default": "<p></p>" },
+
+    { "type": "image_picker", "id": "image", "label": "Right image (optional)" },
+
+    { "type": "color", "id": "bg", "label": "Background", "default": "#000000" },
+    { "type": "color", "id": "fg", "label": "Text color", "default": "#ffffff" },
+    { "type": "color", "id": "link_color", "label": "Inline link color", "default": "#ffffff" }
+  ],
+  "presets": [{ "name": "Top promo banner" }]
+}
+{% endschema %}
