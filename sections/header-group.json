@@ -1,0 +1,47 @@
+{
+  "name": "t:sections.header.name",
+  "type": "header",
+  "sections": {
+    "top_promo_banner": {
+      "type": "top-promo-banner",
+      "settings": {
+        "aria_label": "Promotional banner",
+        "eyebrow": "2025 Buyer’s Guide: Spend Management",
+        "title_size": 25,
+        "headline": "Choose the right partner to save you time and money.",
+        "subtitle_size": 13,
+        "cta_label": "Download now",
+        "cta_url": "shopify://pages/join-the-beta",
+        "cta_new_tab": true,
+        "subtext": "",
+        "bg": "#000000",
+        "fg": "#ffffff",
+        "link_color": "#ffffff"
+      }
+    },
+    "header": {
+      "type": "header",
+      "custom_css": [],
+      "settings": {
+        "logo_position": "middle-left",
+        "menu": "main-menu",
+        "menu_type_desktop": "mega",
+        "sticky_header_type": "none",
+        "show_line_separator": false,
+        "color_scheme": "scheme-1",
+        "menu_color_scheme": "scheme-1",
+        "enable_country_selector": true,
+        "enable_language_selector": true,
+        "enable_customer_avatar": true,
+        "mobile_logo_position": "center",
+        "margin_bottom": 0,
+        "padding_top": 20,
+        "padding_bottom": 20
+      }
+    }
+  },
+  "order": [
+    "top_promo_banner",
+    "header"
+  ]
+}
