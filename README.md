@@ -1,4 +1,4 @@
-# 🏷 Shopify Top Promo Banner (Rich Text, Flexible, Open Source)
+# 🏷 Shopify Top Promo Banner 
 
 A fully customizable **Top Promo Banner** section for Shopify themes.  
 Built to solve the limitations of Shopify’s **native announcement bar**, this section adds **dynamic content, rich text, inline links, font controls, and optional images** — while keeping design clean and responsive.
