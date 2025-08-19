@@ -59,7 +59,7 @@ Copy `sections/top-promo-banner.liquid` into your theme’s `/sections` folder.
 ### Step 2 — Register the section in the header group
 Open your theme’s `sections/header-group.json` and:
 
-1. Add the section to the `"sections"` object:
+1. Add the section to the `"header-group.json"` object:
    ```jsonc
    "top_promo_banner": {
      "type": "top-promo-banner",
