@@ -1,4 +1,4 @@
-# 🏷 Shopify Top Promo Banner (Dawn Theme)
+# 🏷 Shopify Top Promo Banner 
 
 > ✅ **Dawn‑first**: This section ships with a ready example for Dawn’s `header-group.json`.  
 
