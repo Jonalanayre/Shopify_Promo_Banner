@@ -1,15 +1,10 @@
 {% comment %}
   Top Promo Banner — reusable section
-  Features:
-  - Black background, white Inter text
-  - Title (line 1): always bold
-  - Sub-headline (line 2, left): inline richtext (no italics allowed)
-  - Inline link: inline_richtext (never bold)
-  - Font-size sliders for title & subtitle
-  - Optional third line: richtext
-  - Optional right image (hidden on small screens)
+  - Title always bold
+  - Sub-headline always normal (no italics)
+  - Inline link always normal (no bold/italic)
+  - Reduced gap between title and sub-headline
 {% endcomment %}
-
 <section
   id="promo-{{ section.id }}"
   class="promo-banner"
@@ -23,18 +18,17 @@
 >
   <div class="promo-banner__inner page-width">
     <div class="promo-banner__left">
-      
-      <!-- Title (always bold) -->
+      <!-- Line 1: Title (always bold) -->
       <p class="promo-banner__title"
          style="font-size: {{ section.settings.title_size }}px;">
-        <strong>{{ section.settings.eyebrow }}</strong>
+        {{ section.settings.eyebrow }}
       </p>
 
-      <!-- Sub-headline + inline link -->
+      <!-- Line 2: Sub-headline (always normal) + inline link -->
       <div class="promo-banner__row">
         <span class="promo-banner__subtitle"
               style="font-size: {{ section.settings.subtitle_size }}px;">
-          {{ section.settings.headline | replace: '<em>', '' | replace: '</em>', '' }}
+          {{ section.settings.headline }}
         </span>
 
         {% if section.settings.cta_label != blank and section.settings.cta_url != blank %}
@@ -42,12 +36,11 @@
              href="{{ section.settings.cta_url }}"
              {% if section.settings.cta_new_tab %}target="_blank" rel="noopener"{% endif %}
              style="font-size: {{ section.settings.subtitle_size }}px;">
-            {{ section.settings.cta_label | replace: '<strong>', '' | replace: '</strong>', '' }}
+            {{ section.settings.cta_label | strip_html }}
           </a>
         {% endif %}
       </div>
 
-      <!-- Optional third line -->
       {% if section.settings.subtext != blank %}
         <div class="promo-banner__subtext">
           {{ section.settings.subtext }}
@@ -78,36 +71,35 @@
       display: grid;
       grid-template-columns: 1fr auto;
       align-items: center;
-      gap: 1rem; /* reduced gap between title + sub-headline */
-      padding: 24px 1.25rem;
+      gap: 1.25rem;
+      padding: {{ section.settings.padding_top }}px 1.25rem {{ section.settings.padding_bottom }}px;
     }
 
     .promo-banner__left { min-width: 0; }
 
-    /* Title */
+    /* Title line (always bold) */
     .promo-banner__title {
-      margin: 0 0 .25rem 0; /* tighter spacing */
-      color: #fff;
-      font-weight: 700; /* always bold */
+      margin: 0 0 .25rem 0; /* tighter gap */
+      color: var(--promo-fg);
+      font-weight: 700;
       line-height: 1.25;
+      letter-spacing: .2px;
     }
 
-    /* Sub-headline + link row */
-    .promo-banner__row {
-      display: inline-flex;
-      align-items: baseline;
-      column-gap: 12px;
-      flex-wrap: wrap;
+    /* Sub-headline (always normal, no italic) */
+    .promo-banner__subtitle {
+      color: var(--promo-fg);
+      font-weight: 400;
+      font-style: normal !important;
+      line-height: 1.35;
       margin: 0;
     }
-    .promo-banner__subtitle {
-      color: #fff;
-      font-weight: 400;
-      line-height: 1.35;
-    }
+
+    /* Inline link (always normal, no bold/italic) */
     .promo-banner__link {
       color: var(--promo-link);
-      font-weight: 400; /* never bold */
+      font-weight: 400 !important;
+      font-style: normal !important;
       text-decoration: none;
       white-space: nowrap;
     }
@@ -117,12 +109,13 @@
     /* Optional third line */
     .promo-banner__subtext {
       margin-top: .5rem;
-      color: #fff;
+      color: var(--promo-fg);
+      font-weight: 400;
       font-size: 11px;
       opacity: .9;
     }
 
-    /* Right image */
+    /* Right image (optional) */
     .promo-banner__right { display: flex; justify-content: flex-end; }
     .promo-banner__image { height: 80px; width: auto; object-fit: contain; }
 
@@ -131,6 +124,7 @@
       .promo-banner__inner {
         grid-template-columns: 1fr;
         gap: .5rem;
+        padding: {{ section.settings.padding_top }}px 1rem {{ section.settings.padding_bottom }}px;
       }
       .promo-banner__right { display: none; }
     }
@@ -156,9 +150,11 @@
     { "type": "range", "id": "subtitle_size", "label": "Sub-headline font size",
       "min": 10, "max": 32, "step": 1, "unit": "px", "default": 13
     },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 24 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 24 },
 
-    { "type": "inline_richtext", "id": "cta_label", "label": "Inline link text", "default": "Download now" },
-    { "type": "url",  "id": "cta_url",   "label": "Inline link URL" },
+    { "type": "text", "id": "cta_label", "label": "Inline link text", "default": "Download now" },
+    { "type": "url",  "id": "cta_url", "label": "Inline link URL" },
     { "type": "checkbox", "id": "cta_new_tab", "label": "Open link in new tab", "default": true },
 
     { "type": "richtext", "id": "subtext", "label": "Optional third line", "default": "<p></p>" },
